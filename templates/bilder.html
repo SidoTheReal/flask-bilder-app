@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Hochgeladene Bilder</title>
+   <a href="/" style="display: inline-block; padding: 8px 16px; background-color: #0984e3; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;">⬅ Zurück zur Upload-Seite</a>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      color: #2d3436;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logout {
+      width: 100%;
+      max-width: 900px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .logout a {
+      color: #d63031;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .bilderliste {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .bildkarte {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .bildkarte img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .beschreibung, .klasse, .erklaerung {
+      margin: 5px 0;
+    }
+
+    .kommentare {
+      margin-top: 10px;
+    }
+
+    .kommentare form textarea {
+      width: 100%;
+      min-height: 60px;
+      margin-top: 5px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    .kommentare input[type="submit"] {
+      margin-top: 10px;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .kommentare ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+
+    .loeschen-link {
+      margin-top: 10px;
+      display: inline-block;
+      color: #c0392b;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+
+    .loeschen-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="logout">
+    🔒 <a href="/logout">Logout</a>
+  </div>
+
+  <h1>Hochgeladene Bilder</h1>
+
+  <div class="bilderliste">
+    {% for eintrag in bilder %}
+      <div class="bildkarte">
+        <img src="{{ url_for('static', filename='uploads/' ~ eintrag.dateiname) }}" alt="Bild {{ loop.index }}">
+
+        <div class="beschreibung"><strong>Beschreibung:</strong> {{ eintrag.beschreibung }}</div>
+        <div class="klasse"><strong>Erkannte Klasse:</strong> {{ eintrag.klasse }}</div>
+        <div class="erklaerung"><strong>Top-5:</strong><br>
+          {% for eintrag in eintrag.erklaerung %}
+            - {{ eintrag }}<br>
+          {% endfor %}
+        </div>
+
+        <div class="kommentare">
+          <strong>Kommentare:</strong>
+          <ul>
+            {% for kommentar in eintrag.kommentare %}
+              <li>{{ kommentar }}</li>
+            {% endfor %}
+          </ul>
+
+          <form action="/kommentar/{{ eintrag.dateiname }}" method="post">
+            <textarea name="kommentar" placeholder="Kommentar schreiben..."></textarea>
+            <input type="submit" value="Kommentieren">
+          </form>
+        </div>
+
+        <a href="/loeschen/{{ eintrag.dateiname }}" class="loeschen-link">🗑️ Bild löschen</a>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
