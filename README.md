@@ -30,15 +30,15 @@ A Flask-based web application that allows users to upload images, classify them 
 
 ## 📂 Project Structure
 
+```text
 flask-bilder-app/
 ├── app.py
 ├── imagenet_classes.txt
 ├── templates/
 ├── static/
-│ └── uploads/
+│   └── uploads/
 ├── screenshots/
 └── README.md
-
 
 ---
 
