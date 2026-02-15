@@ -39,7 +39,7 @@ flask-bilder-app/
 │   └── uploads/
 ├── screenshots/
 └── README.md
-
+```
 ---
 
 ## 🔐 Environment Variables
